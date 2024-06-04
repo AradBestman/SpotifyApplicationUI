@@ -1,0 +1,9 @@
+.move-in {
+    transform: translateY(0);
+    transition: transform 0.5s ease-in-out;
+}
+
+.move-in.hidden {
+    transform: translateY(100px);
+    /* Adjust the distance the element moves */
+}
