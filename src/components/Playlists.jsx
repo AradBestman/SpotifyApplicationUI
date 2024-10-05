@@ -8,11 +8,14 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Playlists = (props) => {
-  console.log("RENDERRRRRRRR");
+  console.log("This is the Playlists Component");
   const [dataPlaylists, setPlaylists] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:5001/api/v1/playlist/").then(({ data }) => {
-      console.log(data);
+      console.log(
+        "This is the Array the includes the number of the Playlists",
+        data
+      );
       setPlaylists(data);
     });
   }, []);

@@ -19,7 +19,7 @@ const PlaylistPage = () => {
     axios
       .get(`http://localhost:5001/api/v1/playlist/${id}`)
       .then(({ data }) => {
-        console.log(data);
+        console.log("Playlist by id", data);
         setPlaylist(data);
       })
       .catch((err) => {

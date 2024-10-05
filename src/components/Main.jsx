@@ -111,7 +111,6 @@ const Main = () => {
           </div>
         )}
       </div>
-      <div className="mainContent"></div>
     </div>
   );
 };

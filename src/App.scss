@@ -501,4 +501,38 @@ ul.songList {
 }
 
 @media (max-width: 768px) {
+  .main {
+    width: 100%; // Ensures the main section spans the full width of the screen
+    padding: 3rem; // Reduces padding for smaller screens
+    margin: 0; // Removes excess margins
+    padding-top: 2.5rem; // Adjust the top padding as needed
+    overflow-y: auto; // Keep vertical scrolling
+  }
+
+  .mainContent {
+    padding: 0.5rem; // Reduce padding inside mainContent for small screens
+    h1,
+    h2 {
+      font-size: 1.4rem; // Adjust header sizes for smaller screens
+    }
+  }
+
+  .cardsWrap {
+    .cardsWrapInner {
+      flex-direction: column; // Stack cards vertically on small screens
+      align-items: center; // Center the cards
+    }
+  }
+
+  .navMain {
+    .mainContent {
+      margin-left: 0; // Remove margin on the left for small screens
+    }
+  }
+
+  .playlistPageContent {
+    h1 {
+      font-size: 3rem; // Reduce the size of the playlist title on smaller screens
+    }
+  }
 }

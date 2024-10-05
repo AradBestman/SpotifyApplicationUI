@@ -6,6 +6,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { authActions, useLikedSongs } from "../store/authSlice";
+import { FavoriteBorder } from "@mui/icons-material";
 
 const LikedSongsPage = () => {
   const { likedSongs } = useLikedSongs();
@@ -15,33 +16,49 @@ const LikedSongsPage = () => {
   const [playingSong, setPlayingSong] = useState(null);
   const [playing, setPlaying] = useState(false);
 
+  const convertToSeconds = (duration) => {
+    const [minutes, seconds] = duration.toString().split(".").map(Number);
+    return (minutes || 0) * 60 + (seconds || 0);
+  };
   const handleLikeClick = async (song_id) => {
     dispatch(
       authActions.setLikedSongs(likedSongs.filter((s) => s._id !== song_id))
     );
   };
+  console.log(likedSongs, "This is log of the likedSOngs");
+  const totalLikedSongs = likedSongs.length;
+  const formatDuration = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
+  // Format the total duration for display
+  const totalDurationInSeconds = likedSongs.reduce(
+    (acc, song) => acc + convertToSeconds(song.duration),
+    0
+  );
+
+  // Format the total duration for display in mm:ss
+  const formattedTotalDuration = formatDuration(totalDurationInSeconds);
   return (
     <div className="playlistPage">
       <div className="mainInner">
         <div className="playlistPageInfo">
           <div className="playlistPageImage">
-            <img
-              src="https://images.unsplash.com/photo-1587201572498-2bc131fbf113?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=924&q=80"
-              alt="pic"
-            />
+            <FavoriteBorder sx={{ width: 250, height: 250 }} />
           </div>
           <div className="playlistPageContent">
-            <p className="smallText uppercase bold">Playlist</p>
-            <h1>A Perfect Day</h1>
+            <p className="smallText uppercase bold">Liked Songs Playlist</p>
+            <h1>Your Likes</h1>
 
             <p className="tagline">
               Minimalism, electronica and modern classical to concentrate to.
             </p>
             <div className="playlistPageDesc">
               <p className="spotify">Spotify</p>
-              <span>699,428 likes</span>
-              <span>4hr 35 min</span>
+              <span>{totalLikedSongs}</span>
+              <span>{formattedTotalDuration}</span>
             </div>
           </div>
         </div>
@@ -92,7 +109,7 @@ const LikedSongsPage = () => {
                   <span>{likedSong.artist}</span>
                 </div>
                 <div className="songTime">
-                  <span>{likedSong.size}</span>
+                  <span>{likedSong.duration}</span>
                 </div>
               </li>
             ))}
