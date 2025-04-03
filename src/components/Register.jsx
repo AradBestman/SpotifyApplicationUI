@@ -47,7 +47,7 @@ const Register = ({ setIsSignupActive }) => {
   };
 
   return (
-    <div>
+    <div className="Register">
       <h1>Create Account</h1>
       <div className="social-icons">
         <a href="#" className="icon">
@@ -63,8 +63,9 @@ const Register = ({ setIsSignupActive }) => {
           <i className="fa-brands fa-linkedin-in"></i>
         </a>
       </div>
-      <span>or use your email for registration</span>
+      <span>Use your email for register</span>
       <input
+        className="input-register"
         type="text"
         placeholder="Name"
         onChange={handleChange}
@@ -74,6 +75,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.name}</Alert>
       )}
       <input
+        className="input-register"
         type="email"
         placeholder="Email"
         onChange={handleChange}
@@ -83,6 +85,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.email}</Alert>
       )}
       <input
+        className="input-register"
         type="password"
         placeholder="Password"
         onChange={handleChange}
@@ -92,6 +95,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.password}</Alert>
       )}
       <input
+        className="input-register"
         type="text"
         placeholder="Gender"
         onChange={handleChange}
@@ -101,6 +105,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.gender}</Alert>
       )}
       <input
+        className="input-register"
         type="text"
         placeholder="Day"
         onChange={handleChange}
@@ -110,6 +115,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.date}</Alert>
       )}
       <input
+        className="input-register"
         type="text"
         placeholder="Year"
         onChange={handleChange}
@@ -119,6 +125,7 @@ const Register = ({ setIsSignupActive }) => {
         <Alert severity="warning">{errorState.year}</Alert>
       )}
       <input
+        className="input-register"
         type="text"
         placeholder="Month"
         onChange={handleChange}

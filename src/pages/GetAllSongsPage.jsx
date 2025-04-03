@@ -1,27 +1,39 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import axios from "axios";
 import ReactPlayer from "react-player";
-import { authActions, useLikedSongs } from "../store/authSlice";
 import { useDispatch } from "react-redux";
-let likedSongs = [];
+import { authActions, useLikedSongs } from "../store/authSlice";
+import usePlayer from "../hooks/usePlayer";
+
 const GetAllSongsPage = () => {
   let { id } = useParams();
   const [songs, setSongs] = useState(null);
-  const [playingSong, setPlayingSong] = useState(null);
-  const [playing, setPlaying] = useState(false);
   const dispatch = useDispatch();
   const { likedSongs, isLiked } = useLikedSongs();
+
+  // Use the custom usePlayer hook
+  const {
+    playingSong,
+    playerRef,
+    playSong,
+    playing,
+    handleProgress,
+    handlePause,
+    handleEnded,
+  } = usePlayer();
+
   useEffect(() => {
     axios
       .get("http://localhost:5001/api/v1/songs")
       .then(({ data }) => {
-        console.log(data);
         setSongs(data);
+        console.log(data);
       })
+
       .catch((err) => {
         console.log("err", err);
       });
@@ -42,7 +54,6 @@ const GetAllSongsPage = () => {
       } else {
         dispatch(authActions.setLikedSongs([...likedSongs, song]));
       }
-      console.log("setIsLiked");
     } catch (err) {
       console.log("like err", err);
     }
@@ -52,12 +63,6 @@ const GetAllSongsPage = () => {
     <div className="playlistPage">
       <div className="mainInner">
         <div className="playlistPageInfo">
-          <div className="playlistPageImage">
-            <img
-              src="https://images.unsplash.com/photo-1587201572498-2bc131fbf113?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=924&q=80"
-              alt="pic"
-            />
-          </div>
           <div className="playlistPageContent">
             <p className="smallText uppercase bold">Playlist</p>
             <h1>A Perfect Day</h1>
@@ -70,19 +75,14 @@ const GetAllSongsPage = () => {
               <span>4hr 35 min</span>
             </div>
           </div>
+          <div className="playlistPageImage">
+            <img
+              src="https://images.unsplash.com/photo-1587201572498-2bc131fbf113?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=924&q=80"
+              alt="pic"
+            />
+          </div>
         </div>
         <div className="playlistPageSongs">
-          <div className="playlistButtons">
-            <span className="playIcon">
-              <PlayArrowIcon />
-            </span>
-            <div className="icons">
-              <div className="icon iconsHeart">
-                <FavoriteIcon />
-              </div>
-              <div className="icon iconsDots"></div>
-            </div>
-          </div>
           {songs && likedSongs && (
             <ul className="songList">
               {songs.map((song, index) => (
@@ -91,32 +91,27 @@ const GetAllSongsPage = () => {
                     <MusicNoteIcon className="noteI" />
                     <PlayArrowIcon
                       className="playI"
-                      onClick={() => {
-                        if (song.path) {
-                          const url = `http://localhost:5001/${
+                      onClick={() =>
+                        playSong(
+                          `http://localhost:5001/${
                             song.path.split("public/")[1]
-                          }`;
-                          if (playingSong === url) {
-                            setPlayingSong(undefined);
-                          } else {
-                            setPlayingSong(url);
-                          }
-                        }
-                      }}
+                          }`
+                        )
+                      }
                     />
                     <FavoriteIcon
                       style={{ fill: isLiked(song._id) ? "red" : "white" }}
-                      onClick={() => {
-                        handleLikeClick(song);
-                      }}
+                      onClick={() => handleLikeClick(song)}
                     />
                   </div>
+
                   <div className="songDetails">
                     <h3>{song.originalname}</h3>
                     <span>{song.artist}</span>
                   </div>
+
                   <div className="songTime">
-                    <span>{song.size}</span>
+                    <span>{song.duration}</span>
                   </div>
                 </li>
               ))}
@@ -124,10 +119,14 @@ const GetAllSongsPage = () => {
           )}
           {playingSong && (
             <ReactPlayer
+              ref={playerRef}
               style={{ opacity: 0 }}
               url={playingSong}
               controls
-              playing
+              playing={playing}
+              onProgress={handleProgress}
+              onEnded={handleEnded}
+              onPause={handlePause}
             />
           )}
         </div>

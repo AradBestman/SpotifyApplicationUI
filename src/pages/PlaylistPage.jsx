@@ -7,14 +7,25 @@ import axios from "axios";
 import ReactPlayer from "react-player";
 import { useDispatch } from "react-redux";
 import { authActions, useLikedSongs } from "../store/authSlice";
+import usePlayer from "../hooks/usePlayer";
 
 const PlaylistPage = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { isLiked, likedSongs } = useLikedSongs();
   const [playlist, setPlaylist] = useState(undefined);
-  const [playingSong, setPlayingSong] = useState(null);
 
+  const {
+    playingSong,
+    playerRef,
+    playSong,
+    playing,
+    playbackPosition,
+    setPlaybackPosition,
+    handleProgress,
+    handlePause,
+    handleEnded,
+  } = usePlayer();
   useEffect(() => {
     axios
       .get(`http://localhost:5001/api/v1/playlist/${id}`)
@@ -90,16 +101,9 @@ const PlaylistPage = () => {
                   <PlayArrowIcon
                     className="playI"
                     onClick={() => {
-                      if (song.path) {
-                        const url = `http://localhost:5001/${
-                          song.path.split("public/")[1]
-                        }`;
-                        if (playingSong === url) {
-                          setPlayingSong(undefined);
-                        } else {
-                          setPlayingSong(url);
-                        }
-                      }
+                      playSong(
+                        `http://localhost:5001/${song.path.split("public/")[1]}`
+                      );
                     }}
                   />
                   <FavoriteIcon
@@ -121,10 +125,14 @@ const PlaylistPage = () => {
           </ul>
           {playingSong && (
             <ReactPlayer
+              ref={playerRef}
               style={{ opacity: 0 }}
               url={playingSong}
               controls
-              playing
+              playing={playing}
+              onProgress={handleProgress}
+              onEnded={handleEnded}
+              onPause={handlePause}
             />
           )}
         </div>

@@ -7,14 +7,27 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { authActions, useLikedSongs } from "../store/authSlice";
 import { FavoriteBorder } from "@mui/icons-material";
+import usePlayer from "../hooks/usePlayer";
+import { useParams } from "react-router-dom";
 
 const LikedSongsPage = () => {
+  const { id } = useParams();
   const { likedSongs } = useLikedSongs();
   const dispatch = useDispatch();
   const userData = useSelector((bigPie) => bigPie.authSlice.userData);
   console.log(userData);
-  const [playingSong, setPlayingSong] = useState(null);
-  const [playing, setPlaying] = useState(false);
+
+  const {
+    playingSong,
+    playerRef,
+    playSong,
+    playing,
+    playbackPosition,
+    setPlaybackPosition,
+    handleProgress,
+    handlePause,
+    handleEnded,
+  } = usePlayer();
 
   const convertToSeconds = (duration) => {
     const [minutes, seconds] = duration.toString().split(".").map(Number);
@@ -83,18 +96,11 @@ const LikedSongsPage = () => {
                   <PlayArrowIcon
                     className="playI"
                     onClick={() => {
-                      if (likedSong.path) {
-                        const url = `http://localhost:5001/${
+                      playSong(
+                        `http://localhost:5001/${
                           likedSong.path.split("public/")[1]
-                        }`;
-                        likedSong.path.split();
-                        console.log(likedSong.path.split("public/")[1]);
-                        if (playingSong === url) {
-                          setPlayingSong(undefined);
-                        } else {
-                          setPlayingSong(url);
-                        }
-                      }
+                        }`
+                      );
                     }}
                   />
                   <FavoriteIcon
@@ -117,10 +123,14 @@ const LikedSongsPage = () => {
 
           {playingSong && (
             <ReactPlayer
+              ref={playerRef}
               style={{ opacity: 0 }}
               url={playingSong}
               controls
-              playing
+              playing={playing}
+              onProgress={handleProgress}
+              onEnded={handleEnded}
+              onPause={handlePause}
             />
           )}
         </div>

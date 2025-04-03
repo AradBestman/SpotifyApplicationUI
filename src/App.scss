@@ -21,7 +21,7 @@ $greenMain: #1db954;
   text-transform: uppercase;
 }
 .smallText {
-  font-size: 0.75rem;
+  font-size: 3rem;
   letter-spacing: 0.8px;
   &.bold {
     font-weight: 600;
@@ -141,9 +141,8 @@ body {
   text-align: center;
   height: 90px;
   display: flex;
-  flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   color: white;
   z-index: 2;
   position: relative;
@@ -169,15 +168,13 @@ body {
     margin-left: -60vw;
     padding: 10px 10px 10px; /* Adjust margin as needed */
   }
-  .SigninUp {
-  }
 }
 
 .main {
   width: 100%;
   overflow-y: scroll;
   z-index: 0;
-  padding-top: 3.4rem;
+  padding-top: 3.5rem;
   margin: 20px;
 
   .mainContent {
@@ -284,6 +281,7 @@ body {
     text-align: center;
     padding: 1.5rem 0;
     display: flex;
+    gap: 25rem;
 
     .playlistPageImage {
       width: 250px;
@@ -405,10 +403,12 @@ ul.songList {
       .songIcon {
         .noteI {
           display: none;
+          transition: opacity 0.2s ease-in-out;
         }
 
         .playI {
           display: block;
+          transition: opacity 0.2s ease-in-out;
         }
       }
     }
@@ -433,9 +433,9 @@ ul.songList {
     .songIcon {
       padding-right: 1rem;
 
-      .playI {
-        display: none;
-      }
+      // .playI {
+      //   display: none;
+      // }
 
       svg {
         fill: rgba(255, 255, 255, 0.7);
@@ -503,9 +503,9 @@ ul.songList {
 @media (max-width: 768px) {
   .main {
     width: 100%; // Ensures the main section spans the full width of the screen
-    padding: 3rem; // Reduces padding for smaller screens
+    // padding: 0.1rem; // Reduces padding for smaller screens
     margin: 0; // Removes excess margins
-    padding-top: 2.5rem; // Adjust the top padding as needed
+    // padding-top: 2.5rem; // Adjust the top padding as needed
     overflow-y: auto; // Keep vertical scrolling
   }
 
@@ -530,9 +530,42 @@ ul.songList {
     }
   }
 
-  .playlistPageContent {
-    h1 {
-      font-size: 3rem; // Reduce the size of the playlist title on smaller screens
-    }
+  .playlistPage .playlistPageContent h1 {
+    font-size: 50px;
+  }
+  .playlistPage .playlistPageContent .playlistPageDesc {
+    display: flex;
+    flex-direction: column;
+  }
+  .smallText {
+    font-size: 15px;
+  }
+
+  .SigninUp {
+    display: flex;
+    text-align: center;
+    margin-right: 10rem;
+  }
+  .playlistPage {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  // .songIcon {
+  //   .noteI {
+  //     display: block;
+  //     transition: opacity 0.2s ease-in-out;
+  //   }
+
+  //   .playI {
+  //     display: block;
+  //     transition: opacity 0.2s ease-in-out;
+  //   }
+  // }
+  .songIcon {
+    position: relative; // Ensures positioning context for absolute elements inside it
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
   }
 }

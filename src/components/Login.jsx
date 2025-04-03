@@ -59,7 +59,7 @@ const Login = () => {
 
   return (
     <>
-      <h1>Sign In</h1>
+      <h1 className="header-sign-in">Sign In</h1>
       <div className="social-icons">
         <a href="#" className="icon">
           <i className="fa-brands fa-google-plus-g"></i>

@@ -93,7 +93,20 @@ const Main = () => {
           <div className="SigninUp">
             <IconButton
               className="SigninUp"
-              style={{ color: "white" }}
+              style={{
+                color: "black",
+                padding: "0.8rem",
+                backgroundColor: "white",
+                alignItems: "center",
+                cursor: "pointer",
+                fontSize: "16px",
+                fontWeight: 700,
+                paddingLeft: "24px",
+                paddingRight: "24px",
+                paddingTop: "8px",
+                textAlign: "center",
+                borderRadius: "9999px",
+              }}
               onClick={handleLogout}
             >
               Log Out
