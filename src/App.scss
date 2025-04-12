@@ -550,17 +550,7 @@ ul.songList {
     max-width: 100%;
     overflow-x: hidden;
   }
-  // .songIcon {
-  //   .noteI {
-  //     display: block;
-  //     transition: opacity 0.2s ease-in-out;
-  //   }
 
-  //   .playI {
-  //     display: block;
-  //     transition: opacity 0.2s ease-in-out;
-  //   }
-  // }
   .songIcon {
     position: relative; // Ensures positioning context for absolute elements inside it
     display: flex;

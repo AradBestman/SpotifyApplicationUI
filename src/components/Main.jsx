@@ -20,6 +20,8 @@ const Main = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchTxt, setSearchTxt] = useState("");
+  const [hover, setHover] = useState(false);
+  console.log("hover state:", hover);
   const TOKEN = "token";
   const handleNavigate = () => {
     navigate("/login");
@@ -92,11 +94,13 @@ const Main = () => {
         {loggedIn ? (
           <div className="SigninUp">
             <IconButton
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
               className="SigninUp"
               style={{
-                color: "black",
+                color: hover ? "green" : "white",
                 padding: "0.8rem",
-                backgroundColor: "white",
+
                 alignItems: "center",
                 cursor: "pointer",
                 fontSize: "16px",
@@ -106,6 +110,12 @@ const Main = () => {
                 paddingTop: "8px",
                 textAlign: "center",
                 borderRadius: "9999px",
+                backgroundColor: hover ? "Background" : "black",
+                // textDecoration: hover ? "green" : "green", // 👈 the underline on hover
+                borderBottom: hover
+                  ? "5px solid green"
+                  : "2px solid transparent", // 👈 bottom border as underline
+                transition: "all 0.3s ease-in-out", // optional for smoothness
               }}
               onClick={handleLogout}
             >
